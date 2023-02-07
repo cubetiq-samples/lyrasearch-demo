@@ -3,6 +3,22 @@ const { product, insertBulk, search, insert } = require('./lyra')
 
 const app = express()
 
+const productsKhmer = [
+    {
+        name: "ផលិតផល ០",
+        price: 100,
+        description: "ផលិតផល ០ ពិពណ៌នា",
+        category: {
+            name: "ប្រភេទ ០",
+            description: "ប្រភេទ ០ ពិពណ៌នា",
+        },
+        image: "https://picsum.photos/200/300",
+        rating: 4,
+        numReviews: 10,
+        countInStock: 100,
+    }
+]
+
 const generateProducts = (count) => {
     const products = []
     for (let i = 0; i < count; i++) {
@@ -44,6 +60,14 @@ app.get('/api/products/seed', async (req, res) => {
     res.json({
         msg: "OK",
         count: count,
+        records: (await product).docs,
+    })
+})
+
+app.get('/api/products/seed-kh', async (req, res) => {
+    await insertBulk(product, productsKhmer)
+    res.json({
+        msg: "OK",
         records: (await product).docs,
     })
 })
